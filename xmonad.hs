@@ -104,6 +104,7 @@ myKeyBindings =
         , ((mod4Mask .|. shiftMask, xK_p), spawn "amixer -D pulse sset Master 5%-")
         , ((mod4Mask .|. shiftMask .|. controlMask, xK_o), spawn "xbacklight -inc 10")
         , ((mod4Mask .|. shiftMask .|. controlMask, xK_p), spawn "xbacklight -dec 10")
+        , ((0, 0x1008ff59), spawn "xrandr --output eDP-1 --auto --rate 60 --below DP-1 --output DP-1 --auto")
         , ((mod4Mask .|. controlMask, xK_n), spawn "google-chrome")
         , ((mod4Mask .|. shiftMask .|. controlMask, xK_n), spawn "google-chrome --incognito")
         , ((mod4Mask, 0xff61), spawn "xfce4-screenshooter -r -s ~/Pictures/screenshots/screen-$(date +'%Y%m%d-%H%M').png")
