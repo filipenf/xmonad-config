@@ -10,11 +10,11 @@ Config {
                         , Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10
                         , Run Memory ["-t","Mem: <usedratio>%"] 10
                         , Run Swap [] 10
-                        , Run Date "%A %Y %B %_d." "date" 10
+                        , Run Date "%a %b %d" "date" 10
                         , Run Date "%H:%M" "time" 10
                         , Run Com ".xmonad/pdcheck.sh" [] "incident" 600
                         , Run StdinReader
                         ]
         , sepChar = "%"
         , alignSep = "}{"
-        , template = "%StdinReader% } <action=`gsimplecal`>%date%</action> <fc=#ffffff>%time%</fc> { <icon=%incident%.xpm/> | %cpu% | %battery% " }
+        , template = "%StdinReader% } { <action=`gsimplecal`>%date%</action> <fc=#ffffff>%time%</fc> <icon=%incident%.xpm/> | %cpu% | %battery% " }

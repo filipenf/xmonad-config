@@ -38,7 +38,7 @@ main = do
                         { ppOutput = hPutStrLn xmproc
                         , ppTitle = xmobarColor "green" "" . shorten 50
                         }
-        , modMask = mod4Mask     -- Rebind Mod to the Windows key
+        , modMask = myModMask     -- Rebind Mod to the Windows key
         , startupHook = myStartupHook
         , mouseBindings = myMouseBindings
         , workspaces = myWorkspaces
@@ -67,7 +67,7 @@ myManagementHooks :: [ManageHook]
 myManagementHooks = [
   resource =? "synapse" --> doIgnore
   , resource =? "stalonetray" --> doIgnore
-  , className =? "zoom" --> doFloat
+  , className =? "zoom" --> doF (W.shift "Zoom")
   , className =? "Zeal" --> doFloat
   , className =? "Zenity" --> doFloat
   , className =? "Xfce4-power-manager-settings" --> doFloat
@@ -85,7 +85,7 @@ myWorkspaces =
     "1:Office",  "2:Browser", "3:Misc",
     "4:Dev",   "5:Dev", "6:Dev",
     "7:Debug",  "8:Debug", "9:Debug",
-    "0:VM",    "Music", "Slack"
+    "0:VM",    "Zoom", "Slack"
   ]
 
 workspaceKeys =
@@ -100,11 +100,12 @@ myKeyBindings =
         [ ((mod4Mask .|. shiftMask, xK_z), spawn "xscreensaver-command -lock")
         , ((mod4Mask .|. shiftMask, xK_t), sendMessage ToggleStruts)
         , ((mod4Mask .|. shiftMask, xK_d), spawn "gsimplecal")
-        , ((mod4Mask .|. shiftMask, xK_o), spawn "amixer -D pulse sset Master 5%+")
-        , ((mod4Mask .|. shiftMask, xK_p), spawn "amixer -D pulse sset Master 5%-")
         , ((mod4Mask .|. shiftMask .|. controlMask, xK_o), spawn "xbacklight -inc 10")
         , ((mod4Mask .|. shiftMask .|. controlMask, xK_p), spawn "xbacklight -dec 10")
-        , ((0, 0x1008ff59), spawn "xrandr --output eDP-1 --auto --rate 60 --below DP-1 --output DP-1 --auto")
+        , ((0, 0x1008ff59), spawn myToggleDisplay)
+        , ((0, 0x1008ff11), spawn myVolumeDown)
+        , ((0, 0x1008ff13), spawn myVolumeUp)
+        , ((0, 0x1008ff12), spawn myToggleMute)
         , ((mod4Mask .|. controlMask, xK_n), spawn "google-chrome")
         , ((mod4Mask .|. shiftMask .|. controlMask, xK_n), spawn "google-chrome --incognito")
         , ((mod4Mask, 0xff61), spawn "xfce4-screenshooter -r -s ~/Pictures/screenshots/screen-$(date +'%Y%m%d-%H%M').png")
@@ -127,5 +128,8 @@ myKeys = myKeyBindings ++
         , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]
     ]
 
-
 myModMask = mod4Mask
+myVolumeUp = "amixer -D pulse sset Master 5%+"
+myVolumeDown = "amixer -D pulse sset Master 5%-"
+myToggleMute = "amixer -D pulse sset Master toggle"
+myToggleDisplay = "xrandr --output eDP-1 --auto --rate 60 --below DP-1 --output DP-1 --auto"
