@@ -3,3 +3,5 @@ xmonad.hi
 xmonad.errors
 *.o
 *.so
+python/venv/
+token.pickle

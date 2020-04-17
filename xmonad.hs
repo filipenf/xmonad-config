@@ -16,8 +16,8 @@ import XMonad.Actions.FloatKeys        -- actions (keyResizeWindow)
 import XMonad.Actions.FloatSnap        -- actions (snapMove)
 
 main = do
-    xmproc <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
-    spawn "xscreensaver -no-splash"
+    xmproc <- spawnPipe "env PATH=~/.xmonad/python/venv/bin:$PATH xmobar ~/.xmonad/xmobarrc"
+--    spawn "xscreensaver -no-splash"
     spawn "xcompmgr"
 
     xmonad $ docks $ defaultConfig
@@ -46,7 +46,6 @@ main = do
 
 myStartupHook = do
                 spawn "~/.xmonad/startup.sh"
-                spawn "feh --bg-scale ~/Pictures/Wallpapers"
                 spawn "xsetroot -cursor_name left_ptr"
                 setWMName "LG3D" -- Java hack
 
@@ -66,10 +65,10 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 myManagementHooks :: [ManageHook]
 myManagementHooks = [
   resource =? "synapse" --> doIgnore
-  , resource =? "stalonetray" --> doIgnore
+  , resource =? "copyq" --> doFloat
+  , resource =? "wireshark" --> doFloat
   , className =? "zoom" --> doF (W.shift "Zoom")
   , className =? "Zeal" --> doFloat
-  , className =? "Zenity" --> doFloat
   , className =? "Xfce4-power-manager-settings" --> doFloat
   , className =? "Gnome-calculator" --> doFloat
   , className =? "Pavucontrol" --> doFloat
@@ -97,7 +96,7 @@ workspaceKeys =
   ]
 
 myKeyBindings =
-        [ ((mod4Mask .|. shiftMask, xK_z), spawn "xscreensaver-command -lock")
+        [ ((mod4Mask .|. shiftMask, xK_z), spawn "gnome-screensaver-command -l")
         , ((mod4Mask .|. shiftMask, xK_t), sendMessage ToggleStruts)
         , ((mod4Mask .|. shiftMask, xK_d), spawn "gsimplecal")
         , ((mod4Mask .|. shiftMask .|. controlMask, xK_o), spawn "xbacklight -inc 10")

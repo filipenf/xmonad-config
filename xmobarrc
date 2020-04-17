@@ -1,18 +1,19 @@
 Config {
-    font = "xft:Input Mono:size=10"
+      font = "xft:Times New Roman-10:bold"
         , borderColor = "black"
         , bgColor = "black"
+        , alpha = 90
         , fgColor = "grey"
         , allDesktops = True
         , position = TopW L 100
-        , iconRoot = ".xmonad/resources"
+        , iconRoot = "/home/filipefelisbino/.xmonad/resources"
         , commands = [ Run Battery ["-t","<left>%","-L","30","-H","60","-h","green","-n","yellow","-l","red"] 10
                         , Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10
                         , Run Memory ["-t","Mem: <usedratio>%"] 10
                         , Run Swap [] 10
                         , Run Date "%a %b %d" "date" 10
                         , Run Date "%H:%M" "time" 10
-                        , Run Com ".xmonad/pdcheck.sh" [] "incident" 600
+                        , Run Com "/home/filipefelisbino/.xmonad/python/pdcheck.py" [] "incident" 60
                         , Run StdinReader
                         ]
         , sepChar = "%"
